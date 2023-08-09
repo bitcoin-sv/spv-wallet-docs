@@ -3,11 +3,13 @@
 This is the main documentation for the BuxOrg ecosystem. Here you can find all the information about it and how to use it.
 
 ### Table of Contents
-1. [Bux CLI](bux-cli/README.md)
-2. [Bux Console](bux-console/README.md)
-3. [Bux Server](bux-server/README.md)
-4. [JS BuxClient](js-buxclient/README.md)
-5. [GO BuxClient](go-buxclient/README.md)
+1. [BUX](bux/README.md)
+2. [Bux CLI](bux-cli/README.md)
+3. [Bux Console](bux-console/README.md)
+4. [Bux Server](bux-server/README.md)
+5. [JS BuxClient](js-buxclient/README.md)
+6. [GO BuxClient](go-buxclient/README.md)
+7. [GO Paymail](go-paymail/README.md)
 
 ## BuxOrg ecosystem
 ![BuxOrg ecosystem](buxorg.jpg "BuxOrg")
