@@ -1,6 +1,6 @@
 # Bux Server Configuration
 
-Bux server configuration is based on json files which are located in `config` directory and processed at the start of the server.\
+Bux server configuration is based on json files which are located in `config` directory and processed on startup.\
 You can find there files like:
 - `development.json` - used for development environment
 - `production.json` - used for production environment
@@ -16,7 +16,7 @@ For example:
 ```
 
 You can set it in your IDE or in your terminal.\
-If you want to set it during starting the server, use this command:
+If you want to set it during startup, use this command:
 ```bash
 BUX_ENVIRONMENT=development go run ./cmd/server/main.go 
 ```
