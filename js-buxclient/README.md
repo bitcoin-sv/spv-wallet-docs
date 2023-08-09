@@ -1,7 +1,6 @@
 # JS Bux Client
 
-This is JavaScript library used to communicate with Bux server. It allows to create an admin or normal user client and 
-then call methods implemented for that client.
+This library is used to create an admin or normal user client and call methods on it to create keys and destinations associated with that user.
 
 > Details about all the commands and the repo itself can be found [here](https://github.com/BuxOrg/js-buxclient)
 
@@ -25,7 +24,7 @@ node index.js
 > Whole script is placed [here](../../../code/js/js-buxclient.js)
 * ### Create BuxClient
   To create a BuxClient you need to provide a url to the Bux server and a user keys. 
-  The user type can be either `admin` or `user.
+  The user type can be either `admin` or `user`.
 
   Additional libraries which will be used in the example:
   * [bsv](https://www.npmjs.com/package/bsv) - Bitcoin SV library in 1.5.6 version
@@ -116,7 +115,7 @@ node index.js
   ```
 
 * ### Create new destination
-  Destination in bux is and object which contains information about the address.
+  Destination in bux is and object which contains information about the output.
   ```bash
     await userClient.NewDestination({})
       .then((result) => {
