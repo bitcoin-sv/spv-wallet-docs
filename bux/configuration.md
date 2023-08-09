@@ -1,10 +1,10 @@
 # BUX Configuration
 
 Bux can be configured using special methods described below. They allow functional options to be supplied that overwrite default client options.\
-When Bux client is created in [Bux server](../bux-server/README.md) it is configured with default options but by using methods WithXXX you can adjust it to your needs.
+When Bux client is created in [Bux server](../bux-server/README.md) it is configured with default options but by using `WithXXX()` methods you can adjust it to your needs.
 
-In Bux Server file `services.go` you can find function `loadBux` which is responsible for creating Bux client.\
-Inside it, you can find logic which check config and adjust Bux client to it.
+In Bux Server file `services.go` you can find the function `loadBux` which is responsible for creating Bux client.\
+Inside it, you can find logic which checks the config and adjusts Bux client to it.
 
 Example - adding Paymail support:
 

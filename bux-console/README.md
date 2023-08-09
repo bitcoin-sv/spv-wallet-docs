@@ -1,6 +1,6 @@
 # Bux Console
 
-Bux console is an admin panel that allows for viewing, and in some parts integrating, with bux-server data.
+Bux console is an admin panel that allows for viewing (and in some parts integrating with) bux-server data.
 
 ## How to host it
 
@@ -14,7 +14,7 @@ Bux console is an admin panel that allows for viewing, and in some parts integra
 }
 ```
 
-If localhost will not work, try putting http://127.0.0.1:3000/v1 as the url.
+If localhost doesn't work, try putting http://127.0.0.1:3000/v1 as the url.
 
 3. Run bux-console
 ```bash
@@ -76,7 +76,7 @@ docker-compose up -d
 4. Block headers
     * Viewing block headers (bux-agent required to view these)
 5. Destinations
-    * Veiwing addresses and locking scripts of destinations
+    * Viewing addresses and locking scripts of destinations
     * Seems to be creating a new destination every minute
 6. Paymails
     * Allows for viewing paymails

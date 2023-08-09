@@ -13,9 +13,9 @@ Process of creation of a transaction in Bux consists of 4 stages:
 
 ### Creation of a Draft Transaction
 
-Initialize a new draft transaction acording to providen transaction config, where, in addition to mandatory "to"(recepient) and "satoshis", you can specify your own fee value, transaction expiration time, utxos which will be used and change destination strategy.
+Initialize a new draft transaction according to provided transaction config where, in addition to mandatory "to"(recepient) and "satoshis", you can specify your own fee value, transaction expiration time, utxos which will be used and change destination strategy.
 Next, processing of outputs are started. It inspects the outputs to determine how they should be processed. In case if paymail was used as a transaction destination additional endpoints will be called:
-* Before calling the next endpoints {receiver_paymail_host} should be retreived. And it will be retrieved from SRV record for a given paymail. It's done by `go-paymail` library.
+* Before calling the next endpoints {receiver_paymail_host} should be retrieved. And it will be retrieved from SRV record for a given paymail. This is all handled by the `go-paymail` library.
 1. `{receiver_paymail_host}/.well-known/bsvalias`
    Retrieves capabilities for a Paymail provider.
    Example response:
@@ -34,7 +34,7 @@ Next, processing of outputs are started. It inspects the outputs to determine ho
     }
    ```
 2. `{receiver_paymail_host}/v1/bsvalias/p2p-payment-destination/{alias}@{domain}`
-   Retrieves the list of outputs for the P2P transactions to use. Will be called only in case if paymail's capabilities will contain P2P urls. In the moment every paymail should contain P2P urls, as second non-P2P paymail processing method is depricated.
+   Retrieves the list of outputs for the P2P transactions to use. Will be called only in case if paymail's capabilities will contain P2P urls. At the moment, every paymail should contain P2P urls, as second non-P2P paymail processing method will no longer be supported.
    ⚠️ Every call on this endpoint creates new destination (with new address) which is saved in db.\
    Example response:
     ```json
@@ -50,12 +50,12 @@ Next, processing of outputs are started. It inspects the outputs to determine ho
     }
    ```
    * Every endpoint connected to paymail is defined in `go-paymail` library.
-Next, fees are calcualted, the utxos are reserved, necessery output is added and the result is validated.
+Next, fees are calculated, the utxos are reserved, necessery outputs are added and the result is validated.
 And if the transaction is valid it's saved in db and waiting for the next step. 
 
 ### Finalize transaction
 
-Finilize draft transaction stage signs all transaction's inputs by give xPriv key and returns its signed hex
+Finilize draft transaction stage signs all transaction's inputs using keys derived from an xPriv and returns its signed hex
 
 ### Record Transaction
 
@@ -82,5 +82,5 @@ Parses the transaction and saves it into the Datastore. Can trigger creation of 
 
 ### Broadcasting
 Broadcasting is a process of sending transaction to the network. It can be triggered by `AfterCreated` hook in **SyncTransaction** model or in `BroadcastTransaction` task.
-Broadcasting is done to different providers (several using mAPI but whatsOnChain and NowNodes are using their own api). Bux broadcasts transactions in parallel to all providers.
+Broadcasting is done to different providers (several using ARC, or mAPI, but whatsOnChain and NowNodes are using their own api). Bux broadcasts transactions in parallel to all providers.
 The client is notified of the fastest provider that will respond to the broadcast successfully at exactly the same moment- meaning it doesn't have to wait for responses from the other providers.
