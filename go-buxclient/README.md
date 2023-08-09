@@ -1,7 +1,7 @@
 # GO Bux Client
 
-This is GO library used to communicate with Bux server. It allows to create an admin or normal user client and
-then call methods implemented for that client.
+This is GO library used to communicate with Bux server. It allows us to create an admin or normal user client and
+then call methods like create new paymails or generate a new output. 
 
 > Details about all the commands and the repo itself can be found [here](https://github.com/BuxOrg/go-buxclient)
 
