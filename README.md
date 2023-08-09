@@ -14,6 +14,6 @@ This is the main documentation for the BuxOrg ecosystem. Here you can find all t
 ## BuxOrg ecosystem
 ![BuxOrg ecosystem](buxorg.jpg "BuxOrg")
 
-This diagram show how BuxOrg ecosystem is build. It is a set of tools which can be used to create a wallet, 
+This diagram shows how BuxOrg ecosystem is built. It is a set of tools which can be used to create a wallet, 
 send and receive transactions, create and manage paymails and more. 
-It is build to be used as a standalone app or as a module in bigger system.
+It is built to be used as a standalone app or as a module in bigger system.
