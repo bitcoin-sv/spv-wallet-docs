@@ -1,13 +1,13 @@
 # Go Paymail
 
-Paymail client & server library for Golang. It is used to register paymail routes, provide capabilities or be a paymail client.
+Paymail client & server library for Golang. The server is used to register paymail routes, provide capabilities. The client is for making requests to other paymail servers.
 ### Table of Contents
 1. [Client](#create-paymail-client)
 2. [Register routes](#routes-which-will-be-registered)
 3. [Capabilities](#BRFC/Capabilities)
 
 ## Create paymail client
-Paymail client allow to use method connected with paymail transactions but without making any request, just directly calling the methods.
+Paymail client allows us to use methods normally associated with a paymail service without making any external requests, but rather calling the functions directly.
 ```go
 client, err = paymail.NewClient()
 ```
@@ -77,7 +77,7 @@ type P2PTransactionPayload struct {
 
 > Example of implementation in BUX [here](https://github.com/BuxOrg/bux/blob/master/paymail_service_provider.go)
 
-### Methods which client offer:
+### Methods which the client offers:
 1. <strong>CheckDNSSEC</strong> will check the DNSSEC setting for a given domain. Paymail providers should have DNSSEC enabled for their domain
     ```go
     CheckDNSSEC(domain string) (result *DNSCheckResult)
@@ -290,10 +290,10 @@ BRFC (Bitcoin SV Request-For-Comments) Specifications define functionality acros
 
 |Variable name                      | BRFC ID           |
 |-----------------------------------|-------------------|
+|**BRFCP2PPaymentDestination**      |**2a40af698840**   |
+|**BRFCP2PTransactions**            |**5f1323cddf31**   |
 |BRFCBasicAddressResolution         |759684b1a19a       |
-|BRFCP2PPaymentDestination          |2a40af698840       |
 |BRFCP2PPaymentDestinationWithToken |f792b6eff07a       |
-|BRFCP2PTransactions                |5f1323cddf31       |
 |BRFCPaymentDestination             |paymentDestination |
 |BRFCPayToProtocolPrefix            |7bd25e5a1fc6       |
 |BRFCPki                            |pki                |
