@@ -22,7 +22,7 @@ Let's run it with `development` environment (you can define env in terminal or s
  BUX_ENVIRONMENT=development go run ./cmd/server/main.go 
 ```
 
-If you have debug mode disabled (much less logs) you should see something like this:
+If you have debug mode disabled (far fewer logs) you should see something like this:
 ```bash
 2023/07/13 13:10:38 type="info" file="config/load.go" method="config.Load" line="79" message="development configuration env file processed in dir .../bux/bux-server"
 2023/07/13 13:10:39 type="error" file="chainstate/client.go" method="chainstate.(*Client).ValidateMiners.func1" line="228" message="No FeeQuote response from miner Taal"
@@ -53,7 +53,7 @@ Database connection, like everything in bux-server, is defined in config [files]
 
 Before starting Bux Server you need to have a [paymail](../../paymail/README.md) domain properly configured.\
 Firstly it is necessary to add SRV record to domain which you want to use as paymail domain.
-This record will be used to prove that your domain is authorized to use Paymail features.
+This record will be used for service discovery by Paymail clients - pointing them to your host.
 
 Example of SRV record:
 ```
@@ -78,13 +78,13 @@ protecting against various types of attacks such as DNS spoofing and cache poiso
 
 > Note: it is possible to use subdomains as paymail domains e.g. `paymail1.bux.com` `paymail2.bux.com` ...
 
-Paymail structure is like {alias}@{domain} e.g. `test@bux.com` where we can find our domain.
+Paymails follow the same format as email addresses {handle}@{domain.tld} e.g. `example@bux.com`. This is used to address a particular user within a particular domain.
 
 ## Agents
 
-Bux Server can use Monitor agent. It is a separate app which is responsible for monitoring the state of the blockchain, 
-filter transactions based on given addresses and notify when it finds new transaction. It is necessary to use Bux Server 
-when you want to have an ability to use transactions with addresses (not paymails).\
+Bux Server can use a Monitor Agent to listen out for specific transactions on the network.\ 
+It is a separate app which is responsible for this service, filtering transactions based on given addresses and sending notifications when appropriate.\
+It is necessary to use a Monitor Agent only when you intend to accept payments to bitcoin addresses. Current best practice is to use direct transaction delivery via paymail instead.
 
 > Monitor agent is not required to run Bux Server if you want to use only paymail transactions.
 
@@ -100,8 +100,8 @@ Main tasks for Monitor:
 ## Clients
 
 To use bux server you need to have at least one client.\
-If you want to write an app which will be using bux server you can use:
-1. [go-buxclient](../go-buxclient/README.md) - client for Bux Server written in GO
-2. [js-buxclient](../js-buxclient/README.md) - client for Bux Server written in JS
 
-but if you want to connect to bux in your terminal you can use [bux-cli](../bux-cli/README.md) - CLI for Bux Server written in GO
+Three options are available:
+1. [go-buxclient](../go-buxclient/README.md) - Golang
+2. [js-buxclient](../js-buxclient/README.md) - JavaScript
+3. [bux-cli](../bux-cli/README.md) - Command Line
