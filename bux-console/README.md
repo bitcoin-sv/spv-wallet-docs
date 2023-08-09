@@ -6,15 +6,15 @@ Bux console is an admin panel that allows for viewing, and in some parts integra
 
 ### Locally
 1. Clone [bux-console](https://github.com/BuxOrg/bux-console)
-2. Adjust .env file with bux-server URL (localhost if you run locally)
-```js
-REACT_APP_LOGIN_TITLE="Sign in to a Bux server"
-REACT_APP_LOGIN_SUBTITLE="Sign in using your xPriv"
-REACT_APP_TRANSPORT_TYPE="http"
-REACT_APP_SERVER_URL="http://localhost:3003/v1"  // Remember to put the port 3003 and 'v1' after the URL
-REACT_APP_HIDE_SERVER_URL=false
+
+2. Create an `env-config.json` file in root of the project and put **bux-server URL** (localhost if you run locally):
+```json
+{
+  "apiUrl": "http://localhost:3003/v1",
+}
 ```
-If localhost will not work, try putting http://127.0.0.1:3000/v1 as the url
+
+If localhost will not work, try putting http://127.0.0.1:3000/v1 as the url.
 
 3. Run bux-console
 ```bash
@@ -29,25 +29,35 @@ yarn dev    # to run
 ### Docker-compose
 
 1. Clone [bux-console](https://github.com/BuxOrg/bux-console)
-2. Adjust docker-compose to put bux-server URL as build-arg
+
+2. Create an `env-config.json` file in root of the project and put **bux-server URL** (localhost if you run locally):
+
+```json
+{
+  "apiUrl": "http://localhost:3003/v1",
+}
+```
+
+3. Add a volume with this file in docker-compose.yml:
+
 ```yaml
-version: "3"
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        REACT_APP_SERVER_URL: http://localhost:3003/v1 # Bux server URL here
-    ports: [3000:3000]
+    ports:
+      - '3000:3000'
+    volumes:
+      - 'env-config/json:/usr/share/nginx/html/env-config.json'
 ```
 
-1. Run docker-compose
+4. Run docker-compose
 ```bash
 docker-compose up -d
 ```
 
-1. Enter localhost:3000 in your browser and log in with your xPriv
+5. Enter localhost:3000 in your browser and log in with your xPriv
 
 ---
 
@@ -90,26 +100,9 @@ docker-compose up -d
 * route.js - routes to pages
 * .env - env for specifing some titles and bux-server URL
 * src
-    * mocks - mock data used for pages that **ARE IMPLEMENTED BUT NOT USED IN CODE**
-    * components
-        * account - not used
-        * customer - not used
-        * dashboard - used for admin dashboard - not fully implemented
-        * listing 
-        * product - not used
-        * settings - not used
-        * severity-pill - not used
-        * other js components - used in the project
+    * components - js components like dashboard, listing, etc
     * hooks - some useful hooks
-    * icons 
-    * pages
-        * admin
-            * all admin pages explained [here](#what-it-offers)
-        * pages that are implemented but not used anywhere:
-            * account.js
-            * customers.js
-            * products.js
-            * settings.js
-            * register.js
+    * icons - icons used in the dashboard
+    * pages - explained [here](#what-it-offers)
     * theme - MUI Themes
     * utils - simple js functions

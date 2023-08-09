@@ -164,7 +164,7 @@ This is the part where user confirm that he want to send the transaction (exampl
 This diagram show how incoming address transaction is processed.
 ![Incoming address tx](incoming_address_tx.jpg "incoming_address_tx")
 
-To work with Address incoming transactions Bux Server must have Monitor service configured (read how to do it [here](./configuration.md/#configuration-file-structure)).
+To work with Address incoming transactions Bux Server must have Monitor service configured (read how to do it [here](../bux-server/configuration.md#configuration-file-structure)).
 The Monitor service connects to a messaging server and listens for two types of messages: `mempool:transactions` and `block:headers`. 
 
 >TODO: investigate what messaging server we use and how it works
