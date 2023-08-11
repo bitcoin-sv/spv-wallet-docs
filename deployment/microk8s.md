@@ -9,7 +9,7 @@ The basic requirements are as follows:
 3. Create some DNS records for subdomains and a paymail service.
 4. Find & Replace `DOMAIN_NAME_TLD` with your own domain.
 5. Run the install script, and wait a few minutes for everything to get up and running.
-6. Navigate to https://cd._your-domain.tld_ and login with the username and password echoed out by the install script to checkout the dashboard.
+6. Navigate to `https://cd.your-domain.tld` and login with the username and password echoed out by the install script to checkout the dashboard.
 
 Below are details of the k8sconfig repo structure and some explanation of what each config file is doing.
 
