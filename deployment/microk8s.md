@@ -1,4 +1,4 @@
-# Deploying the BUX stack using a MicroK8s Cluster
+# Deploying the BUX Stack Using a MicroK8s Cluster
 
 In order to demonstrate the components working together to form a BSV wallet, detailed here is a reference implementation for deploying BUX using a Micro Kubernettes cluster.  
 
