@@ -10,6 +10,7 @@ This is the main documentation for the BuxOrg ecosystem. Here you can find all t
 5. [JS BuxClient](js-buxclient/README.md)
 6. [GO BuxClient](go-buxclient/README.md)
 7. [GO Paymail](go-paymail/README.md)
+8. [Example Deployment](deployment/microk8s.md)
 
 ## BuxOrg ecosystem
 ![BuxOrg ecosystem](buxorg.jpg "BuxOrg")
