@@ -12,4 +12,4 @@ At a high level there are only a few steps:
 6. Deploy the BUX stack by running a script.
 7. Navigate to `https://cd.your-domain.tld` and login with the username and password echoed out by the install script to checkout the dashboard.
 
-[Details](./details.md) of the k8sconfig repo structure and some explanation of what each config file is doing follow.
+Detailed instructions are available to follow in the [README of the example repo](https://github.com/bitcoin-sv/bux-k8s-config).
