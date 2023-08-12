@@ -4,7 +4,7 @@ In order to demonstrate the components working together to form a BSV wallet, a 
 
 At a high level there are only a few steps:
 
-1. Fork the k8sconfig repository such that you can link it to your own project, updating details as required.
+1. Fork the [k8sconfig repository](https://github.com/bitcoin-sv/bux-k8s-config) such that you can link it to your own project, updating details as required.
 2. Spin up a VPS - these instructions were built config was tested using a Contabo host, instructions for AWS and other well known hosting providers will follow soon™.
 3. Create some DNS records for subdomains and a paymail service.
 4. Find & Replace `DOMAIN_NAME_TLD` with your own domain.
