@@ -7,7 +7,7 @@ In general, we can treat transactions as outgoing (sent by a Bux user) or incomi
 
 Process of sending new transaction in Bux consists of 3 stages:
 1. Creation of a Draft Transaction
-2. Finalize Ttransaction
+2. Finalize Transaction
 3. Record Transaction
 
 ### Creation of a Draft Transaction
