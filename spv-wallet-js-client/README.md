@@ -1,61 +1,76 @@
-# JS Bux Client
+# SPV Wallet JS Client
 
 This library is used to create an admin or normal user client and call methods on it to create keys and destinations associated with that user.
 
-> Details about all the commands and the repo itself can be found [here](https://github.com/BuxOrg/js-buxclient)
+> Details about all the commands and the repo itself can be found [here](https://github.com/bitcoin-sv/spv-wallet-js-client)
 
 ## Installation
+
 ```bash
-yarn add @buxorg/js-buxclient  
+yarn add @bsv/spv-wallet-js-client 
 ```
 
-## Create JS project with BuxClient
+## Create JS project with SPV Wallet JS Client
+
 ```bash
 yarn init
-yarn add @buxorg/js-buxclient
+yarn add @bsv/spv-wallet-js-client 
 ```
+
 Create new js file, example `index.js`\
 Run script with node
+
 ```bash
 node index.js
 ```
 
 ## Usage
-> Whole script is placed [here](../../../code/js/js-buxclient.js)
-* ### Create BuxClient
-  To create a BuxClient you need to provide a url to the Bux server and a user keys. 
-  The user type can be either `admin` or `user`.
 
-  Additional libraries which will be used in the example:
-  * [bsv](https://www.npmjs.com/package/bsv) - Bitcoin SV library in 1.5.6 version
-  ```bash
+<!-- TODO -->
+
+### Create SPV Wallet JS Client
+
+To create a SPV Wallet JS Client you need to provide a url to the SPV Wallet and a user keys.
+The user type can be either `admin` or `user`.
+
+Additional libraries which will be used in the example:
+[bsv](https://www.npmjs.com/package/bsv) - Bitcoin SV library in 1.5.6 version
+
+```bash
   yarn add bsv@1.5.6
-  ```
+```
   
-  Create HDPrivateKey. If we want to create admin client we have to use this same key as in the Bux server config.
-  ```bash
+  Create HDPrivateKey. If we want to create admin client we have to use this same key as in the SPV Wallet config.
+
+```bash
   const bsv = require("bsv");
-  const buxClient = require("@buxorg/js-buxclient");
+  const walletClient = require("@bsv/spv-wallet-js-client");
   
   const key = bsv.HDPrivateKey.fromString("xprv_example")
-  ```
+```
+
   Create client
-  ```bash
-  const client = new buxClient.BuxClient("http://localhost:3003/v1", {
+
+```bash
+  const client = new walletClient.SpvWalletClient("http://localhost:3003/v1", {
     xPub: key.hdPublicKey,
     signRequest: true,
     transportType: "http",
   })
-  ```
-  If we are creating an admin client we need to set admin key.
+```
+
+If we are creating an admin client we need to set admin key.
+
   ```bash
   client.SetAdminKey(adminKey)
   ```
 
-* ### Register new xPub
-  To register new xPub we need to call `RegisterNewXpub` method with new xpub.
-  Generate xpub
-  ```bash
+### Register new xPub
+
+To register new xPub we need to call `RegisterNewXpub` method with new xpub.
+Generate xpub
+
+```bash
   const mnemonic = require("bsv/mnemonic");
   
   // Generate mnemonic
@@ -66,8 +81,10 @@ node index.js
   const xPriv = bsv.HDPrivateKey.fromSeed(Buffer.from(seed), bsv.Networks.mainnet)
   const xPub = xPriv.hdPublicKey.toString()
   ```
-  Register new xPub in Bux server
-  ```bash
+
+Register new xPub in SPV Wallet
+
+```bash
   await api.RegisterXpub(rawXpub, {})
     .then((result) => {
       console.log("RegisterXpub result: ", result)
@@ -77,8 +94,10 @@ node index.js
       throw Error(e)
     })
   ```
+
   Example response:
-  ```bash
+
+```bash
   {
     created_at: '2023-07-04T10:16:32.067199Z',
     updated_at: '2023-07-04T12:16:32.067294+02:00',
@@ -90,9 +109,11 @@ node index.js
   }
   ```
   
-* ### Get xPub
+### Get xPub
+
   This method returns information about xpub given during client creation.
-  ```bash
+
+```bash
   await userClient.GetXPub()
     .then((result) => {
       console.log("GetXPub result: ", result)
@@ -101,8 +122,10 @@ node index.js
       console.log("GetXPub error: ", e)
     })
   ```
-  Example response:
-  ```bash
+
+Example response:
+  
+```bash
   {
     created_at: '2023-06-12T12:06:19.166966Z',
     updated_at: '2023-06-23T12:50:49.757323Z',
@@ -114,9 +137,11 @@ node index.js
   }
   ```
 
-* ### Create new destination
-  Destination in bux is and object which contains information about the output.
-  ```bash
+### Create new destination
+
+Destination in SPV Wallet is and object which contains information about the output.
+
+```bash
     await userClient.NewDestination({})
       .then((result) => {
         console.log("NewDestination result: ", result)
@@ -125,8 +150,10 @@ node index.js
         console.log("NewDestination error: ", e)
       })
   ```
-  Example response:
-  ```bash
+
+Example response:
+
+```bash
   {
     created_at: '2023-07-04T10:24:34.247976Z',
     updated_at: '2023-07-04T12:24:34.248+02:00',
@@ -143,8 +170,10 @@ node index.js
   }
   ```
 
-* ### Get Transactions
-  This method return all transactions for xpub which was given during bux client creation.
+### Get Transactions
+
+This method return all transactions for xpub which was given during SPV Wallet JS Client creation.
+
   ```bash
   await userClient.GetTransactions({}, {}, {})
     .then((result) => {
@@ -154,14 +183,16 @@ node index.js
       console.log("GetTransactions error: ", e)
     })
   ```
-  Example response:
-  ```bash
+
+Example response:
+
+```bash
   [{
     created_at: '2023-06-23T12:50:29.540595Z',
     updated_at: '2023-06-23T13:02:26.182888Z',
     metadata: {
-      receiver: 'test1@bux.com',
-      sender: 'test2@bux.com'
+      receiver: 'test1@example.com',
+      sender: 'test2@example.com'
     },
     deleted_at: null,
     id: '2f2e0a94e6b7862b81d0dd304d2416f0092b79404759113390a46b059f54b549',
@@ -178,8 +209,11 @@ node index.js
     direction: 'incoming'
   }]
   ```
-* ### Get Transaction
-  This method return specific transaction but only if the transaction is connected with user xpub (transaction is incoming or outgoing for user).
+
+### Get Transaction
+
+This method return specific transaction but only if the transaction is connected with user xpub (transaction is incoming or outgoing for user).
+
   ```bash
   await userClient.GetTransaction("2f2e0a94e6b7862b81d0dd304d2416f0092b79404759113390a46b059f54b549")
     .then((result) => {
@@ -215,9 +249,11 @@ node index.js
   }
   ```
   
-* ### Create transaction
-  Transaction can be made in two different ways. First is using `SendToRecipients` method, which include everything inside. Second is by calling every method separately. 
-  * `SendToRecipients` method
+### Create transaction
+  
+Transaction can be made in two different ways. First is using `SendToRecipients` method, which include everything inside. Second is by calling every method separately. 
+`SendToRecipients` method
+
   ```bash
   await userClient.SendToRecipients(recipients, {})
     .then((result) => {
@@ -227,8 +263,10 @@ node index.js
       console.log("SendToRecipients error: ", e)
     })
   ```
+
   Example response:
-  ```bash
+
+```bash
   {
     created_at: '2023-07-04T11:18:12.422006Z',
     updated_at: '2023-07-04T13:18:12.422191+02:00',
@@ -247,8 +285,10 @@ node index.js
     direction: 'outgoing'
   }
   ```
-  * Separate methods
-  ```bash
+
+Separate methods
+
+```bash
   // Create draft transaction
   const draftTransaction = await userClient.DraftToRecipients(recipients, {})
     .then((result) => {
@@ -273,10 +313,11 @@ node index.js
       console.log("RecordTransaction error: ", e)
       throw Error(e)
     })
-  ```
-  Example response:
-  * Draft transaction
-    ```bash
+```
+
+Draft transaction
+
+```bash
       {
         created_at: '2023-07-04T11:28:34.734703Z',
         updated_at: '2023-07-04T13:28:34.734735+02:00',
@@ -302,10 +343,12 @@ node index.js
         },
         status: 'draft'
       }
-    ```
-  * Finalize transaction return tx hex as a string
-  * Record transaction
-    ```bash
+```
+
+  Finalize transaction return tx hex as a string
+  Record transaction
+
+```bash
     {
       created_at: '2023-07-04T11:28:34.840989Z',
       updated_at: '2023-07-04T13:28:34.846286+02:00',
@@ -323,4 +366,4 @@ node index.js
       status: 'complete',
       direction: 'outgoing'
     }
-    ```
+```
