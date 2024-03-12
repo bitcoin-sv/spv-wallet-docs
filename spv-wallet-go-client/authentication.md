@@ -1,20 +1,24 @@
-# BuxServer clients authentication (go-buxclient)
+# SPV Wallet Go Client - Authentication
 
-<!-- TOC -->
-- [BuxServer clients authentication (go-buxclient)](#buxserver-clients-authentication-go-buxclient)
-		- [How message signing works in go-buxclient library?](#how-message-signing-works-in-go-buxclient-library)
-		- [Get Transaction endpoint example](#get-transaction-endpoint-example)
-			- [Create the client instance with Access Key - Get Transaction endpoint example](#create-the-client-instance-with-access-key---get-transaction-endpoint-example)
-			- [What is behind the New method?](#what-is-behind-the-new-method)
-			- [Sending request to the bux-server - access key authentication](#sending-request-to-the-bux-server---access-key-authentication)
-		- [Create transaction endpoint example](#create-transaction-endpoint-example)
-			- [Create the client instance with Access Key - Create Transaction endpoint example](#create-the-client-instance-with-access-key---create-transaction-endpoint-example)
-  
-### How message signing works in go-buxclient library?
+## Table of Contents
 
-#### SetSignature method
+- [How message signing works in spv-wallet-go-client library?](#how-message-signing-works-in-spv-wallet-go-client-library)
+  - [SetSignature method](#setsignature-method)
+    - [Algorithm Overview](#algorithm-overview)
+    - [Created Headers](#created-headers)
+- [Get Transaction endpoint example](#get-transaction-endpoint-example)
+  - [Creating the Client Instance with Access Key](#create-the-client-instance-with-access-key---get-transaction-endpoint-example)
+  - [What is behind the "New" method?](#what-is-behind-the-new-method)
+  - [Sending Request to the SPV Wallet - Access Key Authentication](#sending-request-to-the-spv-wallet---access-key-authentication)
+- [Create Transaction endpoint example](#create-transaction-endpoint-example)
+  - [Creating the Client Instance with Access Key](#create-the-client-instance-with-access-key---create-transaction-endpoint-example)
+
+## How message signing works in spv-wallet-go-client library?
+
+### SetSignature method
 
 Signing process is a part of `SetSignature`:
+
 ```go
 func SetSignature(header *http.Header, xPriv *bip32.ExtendedKey, bodyString string) error {
 	// Create the signature
@@ -24,11 +28,13 @@ func SetSignature(header *http.Header, xPriv *bip32.ExtendedKey, bodyString stri
 	}
 
 	// Set the auth header
-	header.Set(buxmodels.AuthHeader, authData.XPub)
+	header.Set(models.AuthHeader, authData.XPub)
 
 	return setSignatureHeaders(header, authData)
 }
 ```
+
+#### Algorithm Overview
 
 The algorithm is presented below:
 
@@ -45,62 +51,68 @@ The algorithm is presented below:
 
 Finally, the createSignatureCommon function returns the AuthPayload containing the extended public key, authentication nonce, authentication hash, authentication time, and signature.
 
-#### Created headers:
+#### Created headers
 
-**Auth headers**
+##### Auth headers
 
-`bux-auth-key` -> xpub
+`x-auth-key` -> xpub
 
-**Signature headers**
-- `bux-auth-hash` -> sha256 hash of the body string
-- `bux-auth-nonce` -> random string
-- `bux-auth-time` -> timestamp in milliseconds
-- `bux-auth-signature` -> signature
+##### Signature headers
+
+- `x-auth-hash` -> sha256 hash of the body string
+- `x-auth-nonce` -> random string
+- `x-auth-time` -> timestamp in milliseconds
+- `x-auth-signature` -> signature
 
 ### Get Transaction endpoint example
+
 ---
+
 #### Create the client instance with Access Key - Get Transaction endpoint example
 
-First we can call the `New` method from buxclient library:
+First we can call the `New` method from spv-wallet-go-client library:
 
 ```go
-	buxClient, err := buxclient.New(
-		buxclient.WithAccessKey(accessKey),
-		buxclient.WithHTTP(serverUrl),
-		buxclient.WithDebugging(debug),
-		buxclient.WithSignRequest(signRequest),
+	walletClient, err := walletClient.New(
+		walletClient.WithAccessKey(accessKey),
+		walletClient.WithHTTP(serverUrl),
+		walletClient.WithSignRequest(signRequest),
 	)
 ```
 
 As the parameter we can specify:
-```go
-(opts ...buxclient.ClientOps)
-```
-
-options 
-```go
-    buxclient.WithHTTP(serverUrl),
-	buxclient.WithDebugging(debug),
-```
-are used to provide the url of the bux-server and to enable/disable debugging mode.
 
 ```go
-    buxclient.WithSignRequest(signRequest),
+(opts ...walletclient.ClientOps)
 ```
-the signRequest option is used to enable/disable signing all messages send to the bux-server.
 
-The most important for us is the `buxclient.WithAccessKey(accessKey)` option, which is used to provide the access key.
+options
 
-In a return we will receive a buxclient instance prepared to communicate with the server and an error if something went wrong.
+```go
+    walletClient.WithHTTP(serverUrl),
+```
+
+are used to provide the url of the SPV Wallet and to enable/disable debugging mode.
+
+```go
+    walletClient.WithSignRequest(signRequest),
+```
+
+the signRequest option is used to enable/disable signing all messages send to the SPV Wallet.
+
+The most important for us is the `walletclient.WithAccessKey(accessKey)` option, which is used to provide the access key.
+
+In a return we will receive a spv-wallet-go-client instance prepared to communicate with the server and an error if something went wrong.
 
 ---
-#### What is behind the New method?
+
+### What is behind the New method?
 
 In above example we use the .WithAccessKey method so the below code was be executed:
 
 ```go
 func WithAccessKey(accessKeyString string) ClientOps {
-	return func(c *BuxClient) {
+	return func(c *WalletClient) {
 		if c != nil {
 			c.accessKeyString = accessKeyString
 		}
@@ -108,9 +120,9 @@ func WithAccessKey(accessKeyString string) ClientOps {
 }
 ```
 
-so after this the `accessKeyString` field of the buxclient instance will be set to the value of the `accessKeyString` parameter.
+so after this the `accessKeyString` field of the walletclient instance will be set to the value of the `accessKeyString` parameter.
 
-It takes us to the `buxclient.go` file inside go-buxclient library and the `else if` statement related to the `accessKeyString` will be executed:
+It takes us to the `walletclient.go` file inside spv-wallet-go-client library and the `else if` statement related to the `accessKeyString` will be executed:
 
 ```go
 	else if client.accessKeyString != "" {
@@ -128,16 +140,18 @@ It takes us to the `buxclient.go` file inside go-buxclient library and the `else
     }
 ```
 
-to summarize the above code, the `accessKeyString` is decoded to the `accessKey` and stored in the `accessKey` field of the buxclient instance. There are two dependencies used here:
+to summarize the above code, the `accessKeyString` is decoded to the `accessKey` and stored in the `accessKey` field of the walletclient instance. There are two dependencies used here:
+
 - `wif` from `github.com/libsv/go-bk/wif`,
 - `bitcoin` from `github.com/bitcoinschema/go-bitcoin/v2`.
 
 If you want to know more how the decode wif process works, you can read the short docs [here](/docs/domain_knowledge/blockchain/components/keys&addresses/wif_decoding.md).
 
 ---
-#### Sending request to the bux-server - access key authentication
 
-To send a bux-server request from a client library we use the `doHTTPRequest` (`transports/http.go`) method which is a wrapper for the `http.Do` method from the `net/http` library.
+#### Sending request to the SPV Wallet - access key authentication
+
+To send a SPV Wallet request from a client library we use the `doHTTPRequest` (`transports/http.go`) method which is a wrapper for the `http.Do` method from the `net/http` library.
 
 ```go
     // (...)
@@ -155,23 +169,22 @@ To send a bux-server request from a client library we use the `doHTTPRequest` (`
     // (...)
 ```
 
-as we set the `accessKey` in the buxclient instance, the `authenticateWithAccessKey` method will be executed:
+as we set the `accessKey` in the walletclient instance, the `authenticateWithAccessKey` method will be executed:
 
 This method will preare request headers presented in this section: [Created headers](#created-headers)
 
-```go
-
 ### Create transaction endpoint example
+
 ---
+
 #### Create the client instance with Access Key - Create Transaction endpoint example
 
-The difference between the `Get Transaction` and `Create Transaction` endpoints is that the `Create Transaction` endpoint requires the `xPriv` key to be set in the buxclient instance instead of the `accessKey`.
+The difference between the `Get Transaction` and `Create Transaction` endpoints is that the `Create Transaction` endpoint requires the `xPriv` key to be set in the walletclient instance instead of the `accessKey`.
 
-
-```go 
-    buxClient, err := buxclient.New(
+```go
+    walletclient, err := walletclient.New(
         (...)
-        buxclient.WithXPriv(xPriv),
+        walletclient.WithXPriv(xPriv),
         (...)
     )
 ```
