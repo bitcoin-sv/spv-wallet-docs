@@ -1,4 +1,4 @@
-# BUX Configuration
+# SPV Wallet Engine Configuration
 
 Bux can be configured using special methods described below. They allow functional options to be supplied that overwrite default client options.\
 When Bux client is created in [Bux server](../bux-server/README.md) it is configured with default options but by using `WithXXX()` methods you can adjust it to your needs.
@@ -9,28 +9,32 @@ Inside it, you can find logic which checks the config and adjusts Bux client to 
 Example - adding Paymail support:
 
 ```go
-    // Set the Paymail server if enabled
-    if appConfig.Paymail.Enabled {
-	// Append the server config
-	options = append(options, bux.WithPaymailSupport(
-		appConfig.Paymail.Domains,
-		appConfig.Paymail.DefaultFromPaymail,
-		appConfig.Paymail.DefaultNote,
-		appConfig.Paymail.DomainValidationEnabled,
-		appConfig.Paymail.SenderValidationEnabled,
-		))
-    }
+// Set the Paymail server if enabled
+if appConfig.Paymail.Enabled {
+// Append the server config
+    options = append(options, bux.WithPaymailSupport(
+    appConfig.Paymail.Domains,
+    appConfig.Paymail.DefaultFromPaymail,
+    appConfig.Paymail.DefaultNote,
+    appConfig.Paymail.DomainValidationEnabled,
+    appConfig.Paymail.SenderValidationEnabled,
+    ))
+}
 ```
 
-## Possible options:
+## Possible options
 
-* [General options](#general-options)
-* [Cachestore options](#cachestore-options)
-* [Datastore options](#datastore-options)
-* [Paymail options](#paymail-options)
-* [Task Manager options](#task-manager-options)
-* [Cluster options](#cluster-options)
-* [Notification options](#notification-options)
+- [SPV Wallet Engine Configuration](#spv-wallet-engine-configuration)
+  - [Possible options](#possible-options)
+  - [General options](#general-options)
+    - [WithUserAgent -  will overwrite the default useragent](#withuseragent----will-overwrite-the-default-useragent)
+  - [Cachestore options](#cachestore-options)
+  - [Datastore options](#datastore-options)
+  - [Paymail options](#paymail-options)
+  - [Task Manager options](#task-manager-options)
+  - [Cluster options](#cluster-options)
+  - [Chain State options](#chain-state-options)
+  - [Notification options](#notification-options)
 
 
 ## General options
@@ -51,10 +55,9 @@ Example - adding Paymail support:
 
 </details>
 
-
-1. ### WithUserAgent -  will overwrite the default useragent
+### WithUserAgent -  will overwrite the default useragent
     <details>
-    <summary>Show code</summary>
+    <summary>Show code</summary>![alt text](image.png)
    
     ```go
     func WithUserAgent(userAgent string) ClientOps {
@@ -67,7 +70,7 @@ Example - adding Paymail support:
     ```
     </details>
 
-2. ### WithNewRelic - will set the NewRelic application client
+1. ### WithNewRelic - will set the NewRelic application client
    <details>
     <summary>Show code</summary>
    
@@ -95,7 +98,7 @@ Example - adding Paymail support:
     ```
    </details>
 
-3. ### WithDebugging - will set debugging in any applicable configuration
+2. ### WithDebugging - will set debugging in any applicable configuration
 
     <details>
     <summary>Show code</summary>
@@ -116,7 +119,7 @@ Example - adding Paymail support:
    ```
     </details>
 
-4. ### WithEncryption - will set the encryption key and encrypt values using this key
+3. ### WithEncryption - will set the encryption key and encrypt values using this key
     <details>
     <summary>Show code</summary>
    
@@ -131,7 +134,7 @@ Example - adding Paymail support:
     ```
     </details>
    
-5. ### WithModels - will add additional models (will NOT migrate using datastore)
+4. ### WithModels - will add additional models (will NOT migrate using datastore)
     <details>
     <summary>Show code</summary>
    
@@ -144,7 +147,7 @@ Example - adding Paymail support:
     ```
     </details>
    
-6. ### WithITCDisabled - will disable (ITC) incoming transaction checking
+5. ### WithITCDisabled - will disable (ITC) incoming transaction checking
     <details>
     <summary>Show code</summary>
    
@@ -157,7 +160,7 @@ Example - adding Paymail support:
     ```
     </details>
    
-7. ### WithIUCDisabled - will disable checking the input utxos
+6. ### WithIUCDisabled - will disable checking the input utxos
     <details>
     <summary>Show code</summary>
    
@@ -170,7 +173,7 @@ Example - adding Paymail support:
     ```
     </details>
 
-8.  ### WithImportBlockHeaders - will import block headers on startup
+7.  ### WithImportBlockHeaders - will import block headers on startup
     <details>
     <summary>Show code</summary>
    
@@ -185,7 +188,7 @@ Example - adding Paymail support:
     ```
     </details>
 
-9. ### WithHTTPClient - will set the custom http interface
+8. ### WithHTTPClient - will set the custom http interface
     <details>
     <summary>Show code</summary>
    
@@ -200,7 +203,7 @@ Example - adding Paymail support:
     ```
     </details>
 
-10. ### WithLogger - will set the custom logger interface
+9.  ### WithLogger - will set the custom logger interface
     <details>
     <summary>Show code</summary>
 

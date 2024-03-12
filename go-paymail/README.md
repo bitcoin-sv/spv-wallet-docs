@@ -1,18 +1,22 @@
 # Go Paymail
 
 Paymail client & server library for Golang. The server is used to register paymail routes, provide capabilities. The client is for making requests to other paymail servers.
-### Table of Contents
+
+## Table of Contents
+
 1. [Client](#create-paymail-client)
 2. [Register routes](#routes-which-will-be-registered)
-3. [Capabilities](#BRFC/Capabilities)
+3. [Capabilities](#brfccapabilities)
 
 ## Create paymail client
+
 Paymail client allows us to use methods normally associated with a paymail service without making any external requests, but rather calling the functions directly.
+
 ```go
 client, err = paymail.NewClient()
 ```
 
-<strong>PaymailServiceProvider</strong> must be implemented in your application in order to be able to use the go paymail client. These methods fetch or save data to the database.
+**PaymailServiceProvider** must be implemented in your application in order to be able to use the go paymail client. These methods fetch or save data to the database.
 
 ```go
 type PaymailServiceProvider interface {
@@ -46,119 +50,121 @@ Objects returned by this methods:
 ```go
 // ResolutionPayload is the payload from the response
 type ResolutionPayload struct {
-	Address   string `json:"address,omitempty"`   // Legacy BSV address derived from the output script (custom for our Go package)
-	Output    string `json:"output"`              // hex-encoded Bitcoin script, which the sender MUST use during the construction of a payment transaction
-	Signature string `json:"signature,omitempty"` // This is used if SenderValidation is enforced (signature of "output" value)
+    Address   string `json:"address,omitempty"`   // Legacy BSV address derived from the output script (custom for our Go package)
+    Output    string `json:"output"`              // hex-encoded Bitcoin script, which the sender MUST use during the construction of a payment transaction
+    Signature string `json:"signature,omitempty"` // This is used if SenderValidation is enforced (signature of "output" value)
 }
 // PaymentDestinationPayload is the payload from the response
 //
 // The reference is unique for the payment destination request
 type PaymentDestinationPayload struct {
-	Outputs   []*PaymentOutput `json:"outputs"`   // A list of outputs
-	Reference string           `json:"reference"` // A reference for the payment, created by the receiver of the transaction
+    Outputs   []*PaymentOutput `json:"outputs"`   // A list of outputs
+    Reference string           `json:"reference"` // A reference for the payment, created by the receiver of the transaction
 }
 // AddressInformation is an internal struct for paymail addresses and their corresponding information
 type AddressInformation struct {
-	Alias       string `json:"alias"`        // Alias or handle of the paymail
-	Avatar      string `json:"avatar"`       // This is the url of the user (public profile)
-	Domain      string `json:"domain"`       // Domain of the paymail
-	ID          string `json:"id"`           // Global unique identifier
-	LastAddress string `json:"last_address"` // This is used as a temp address for now (should be via xPub)
-	Name        string `json:"name"`         // This is the name of the user (public profile)
-	PrivateKey  string `json:"-"`            // PrivateKey hex encoded
-	PubKey      string `json:"pubkey"`       // PublicKey hex encoded
+    Alias       string `json:"alias"`        // Alias or handle of the paymail
+    Avatar      string `json:"avatar"`       // This is the url of the user (public profile)
+    Domain      string `json:"domain"`       // Domain of the paymail
+    ID          string `json:"id"`           // Global unique identifier
+    LastAddress string `json:"last_address"` // This is used as a temp address for now (should be via xPub)
+    Name        string `json:"name"`         // This is the name of the user (public profile)
+    PrivateKey  string `json:"-"`            // PrivateKey hex encoded
+    PubKey      string `json:"pubkey"`       // PublicKey hex encoded
 }
 // P2PTransactionPayload is payload from the request
 type P2PTransactionPayload struct {
-	Note string `json:"note"` // Some human-readable note
-	TxID string `json:"txid"` // The txid of the broadcasted tx
+    Note string `json:"note"` // Some human-readable note
+    TxID string `json:"txid"` // The txid of the broadcasted tx
 }
 ```
 
-> Example of implementation in BUX [here](https://github.com/BuxOrg/bux/blob/master/paymail_service_provider.go)
+> Example implementation in SPV Wallet [here](https://github.com/bitcoin-sv/spv-wallet/blob/master/engine/paymail_service_provider.go)
 
-### Methods which the client offers:
-1. <strong>CheckDNSSEC</strong> will check the DNSSEC setting for a given domain. Paymail providers should have DNSSEC enabled for their domain
+### Methods which the client offers
+
+1. **CheckDNSSEC** will check the DNSSEC setting for a given domain. Paymail providers should have DNSSEC enabled for their domain
+
     ```go
     CheckDNSSEC(domain string) (result *DNSCheckResult)
     ```
 
-2. <strong>CheckSSL</strong> will do a basic check on the host to see if there is a valid SSL cert. All paymail requests should be via HTTPS and have avalid certificate
+2. **CheckSSL** will do a basic check on the host to see if there is a valid SSL cert. All paymail requests should be via HTTPS and have avalid certificate
     ```go
     CheckSSL(host string) (valid bool, err error)
     ```
 
-3. <strong>GetBRFCs</strong> will return the list of specs
+3. **GetBRFCs** will return the list of specs
     ```go
     GetBRFCs() []*BRFCSpec 
     ```
 
-4. <strong>GetCapabilities</strong> will return a list of capabilities for a given domain & port
+4. **GetCapabilities** will return a list of capabilities for a given domain & port
     ```go
     GetCapabilities(target string, port int) (response *CapabilitiesResponse, err error)
     ```
 
-5. <strong>GetOptions</strong> will return the Client options
+5. **GetOptions** will return the Client options
     ```go
     GetOptions() *ClientOptions
     ```
 
-6. <strong>GetP2PPaymentDestination</strong> will return list of outputs for the P2P transactions to use
+6. **GetP2PPaymentDestination** will return list of outputs for the P2P transactions to use
     ```go
     GetP2PPaymentDestination(p2pURL, alias, domain string, paymentRequest *PaymentRequest) (response *PaymentDestinationResponse, err error)
     ```
 
-7. <strong>GetPKI</strong> will return a valid PKI response for a given alias@domain.tld
+7. **GetPKI** will return a valid PKI response for a given alias@domain.tld
     ```go
     GetPKI(pkiURL, alias, domain string) (response *PKIResponse, err error)
     ```
 
-8. <strong>GetPublicProfile</strong> will return a valid public profile
+8. **GetPublicProfile** will return a valid public profile
    ```go
    GetPublicProfile(publicProfileURL, alias, domain string) (response *PublicProfileResponse, err error)
    ```
 
-9.  <strong>GetResolver</strong> will return the internal resolver from the client
+9.  **GetResolver** will return the internal resolver from the client
     ```go
     GetResolver() interfaces.DNSResolver
     ```
 
-10. <strong>GetSRVRecord</strong> will get the SRV record for a given domain name
+10. **GetSRVRecord** will get the SRV record for a given domain name
     ```go
     GetSRVRecord(service, protocol, domainName string) (srv *net.SRV, err error)
     ```
 
-11. <strong>GetUserAgent</strong> will return the user agent string of the client
+11. **GetUserAgent** will return the user agent string of the client
     ```go
     GetUserAgent() string
     ```
 
-12. <strong>ResolveAddress</strong> will return a hex-encoded Bitcoin script if successful
+12. **ResolveAddress** will return a hex-encoded Bitcoin script if successful
     ```go
     ResolveAddress(resolutionURL, alias, domain string, senderRequest *SenderRequest) (response *ResolutionResponse, err error)
     ```
 
-13. <strong>SendP2PTransaction</strong>  will submit a transaction hex string (tx_hex) to a paymail provider
+13. **SendP2PTransaction**  will submit a transaction hex string (tx_hex) to a paymail provider
     ```go
     SendP2PTransaction(p2pURL, alias, domain string, transaction *P2PTransaction) (response *P2PTransactionResponse, err error)
     ```
 
-14. <strong>ValidateSRVRecord</strong> will check for a valid SRV record for paymail following specifications
+14. **ValidateSRVRecord** will check for a valid SRV record for paymail following specifications
     ```go
     ValidateSRVRecord(ctx context.Context, srv *net.SRV, port, priority, weight uint16) error
     ```
 
-15. <strong>VerifyPubKey</strong> will try to match a handle and pubkey
+15. **VerifyPubKey** will try to match a handle and pubkey
     ```go
     VerifyPubKey(verifyURL, alias, domain, pubKey string) (response *VerificationResponse, err error)
     ```
 
-16. <strong>WithCustomHTTPClient</strong> will overwrite the default client with a custom client.
+16. **WithCustomHTTPClient** will overwrite the default client with a custom client.
     ```go
     WithCustomHTTPClient(client *resty.Client) ClientInterface
     ```
 
-17. <strong>WithCustomResolver</strong> will allow you to supply a custom  dns resolver, useful for testing etc.
+17. **WithCustomResolver** will allow you to supply a custom  dns resolver, useful for testing etc.
     ```go
     WithCustomResolver(resolver interfaces.DNSResolver) ClientInterface
     ```
@@ -166,6 +172,7 @@ type P2PTransactionPayload struct {
 ## Register paymail routes
 By registering paymail routes application is capable to handle requests which are neccessary to handle paymail transactions.
 Method to register routes:
+
 ```go
 // RegisterRoutes register all the available paymail routes to the http router
 func (c *Configuration) RegisterRoutes(r *apirouter.Router) {
@@ -174,13 +181,16 @@ func (c *Configuration) RegisterRoutes(r *apirouter.Router) {
 ```
 
 Usage:
+
 ```go
 client.RegisterRoutes(router)
 ```
 
-#### Routes which will be registered:
+### Routes which will be registered
+
 - Capabilities (serivce discovery)
-```
+
+```http request
 [GET] /.well-known/bsvalias
 ```
 
@@ -201,14 +211,17 @@ Response:
 ```
 
 - PKI request (public key information)
-```
+  
+```http request
 [GET] /v1/bsvalias/id/:paymailAddress
 ```
-Response
+
+Response:
+
 ```json
 {
     "bsvalias": "1.0",                                                              // Version of Paymail
-    "handle": "test@pbux.com",                                                      // The <alias>@<domain>.<tld>
+    "handle": "test@spvwallet.com",                                                      // The <alias>@<domain>.<tld>
     "pubkey": "0230c98412e89385f64e82e68e5b587c0e19bf42149261caca04ffa77fd915784e"  // The related PubKey
 }
 ```
@@ -221,17 +234,20 @@ Response
 ```json
 {
     "bsvalias": "1.0",                                                              // Version of the bsvalias
-    "handle": "test@bux.com",                                                       // The <alias>@<domain>.<tld>
+    "handle": "test@spvwallet.com",                                                       // The <alias>@<domain>.<tld>
     "match": false,                                                                 // If the match was successful or not
     "pubkey": "03754f0bd1c17825e6c35449d49e97c5c15b94c33360782c1272337ea18dc0f131"  // The related PubKey
 }
 ```
 
 - Payment Destination request (address resolution)
-```
+  
+```http request
 [POST] /v1/bsvalias/address/:paymailAddress
 ```
-Response
+
+Response:
+
 ```json
 {
 	"address": "1GhzQq2zY2E1vB5z8QEMaF4z2JZLfLwY4K",                // Legacy BSV address derived from the output script (custom for our Go package)
@@ -241,10 +257,13 @@ Response
 ```
 
 - Public Profile request (returns Name & Avatar)
-```
+  
+```http request
 [GET] /v1/bsvalias/public-profile/:paymailAddress
 ```
-Response
+
+Response:
+
 ```json
 {
     "avatar": "https://url.to.avatar.com/test.png", // A URL that returns a 180x180 image. It can accept an optional parameter `s` to return an image of width and height `s`. The image should be JPEG, PNG, or GIF.
@@ -253,10 +272,13 @@ Response
 ```
 
 - P2P Destination request (returns output & reference)
-```
+  
+```http request
 [GET] /v1/bsvalias/p2p-payment-destination/:paymailAddress
 ```
-Response
+
+Response:
+
 ```json
 {
 "outputs": [                                                            // A list of outputs
@@ -271,10 +293,13 @@ Response
 ```
 
 - P2P Receive Tx request (receives the P2P transaction, broadcasts, returns tx_id)
-```
+  
+```http request
 [POST] /v1/bsvalias/receive-transaction/:paymailAddress
 ```
-Response
+
+Response:
+
 ```json
 {
 	"note": "note",                                                             // Some human-readable note
