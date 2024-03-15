@@ -51,7 +51,7 @@ The BHS should return an object which contains general information about confirm
 ]
 ```
 
-Confirmation passes only if both - blockHeigh and merkleRoot are valid pair.
+Confirmation passes only if both - blockHeight and merkleRoot are valid pair.
 
 > :warning: **Note**: BHS only checks for merkle roots in Longest Chain. It does not check for merkle roots in Side Chains.
 >
