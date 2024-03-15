@@ -4,7 +4,6 @@ The Block Headers Service is a standalone service that communicates with the Bit
 
 ## Table of Contents
 
-- [Block Headers Service](#block-headers-service)
   - [Table of Contents](#table-of-contents)
   - [How it is used in the SPV Wallet ecosystem](#how-it-is-used-in-the-spv-wallet-ecosystem)
   - [How merkle roots are verified](#how-merkle-roots-are-verified)
