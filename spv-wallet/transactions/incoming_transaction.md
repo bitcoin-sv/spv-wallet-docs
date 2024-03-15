@@ -1,20 +1,21 @@
 # Incoming transactions
 
-Bux Server is able to work with both old-fashioned address transactions and transactions using paymail protocol.
+SPV Wallet is able to work with both old-fashioned address transactions and transactions using paymail protocol.
 
 1. [Paymail transaction](#incoming-paymail-transaction)
 2. [Address transaction](#incoming-address-transaction)
 
-# Incoming paymail transaction
+## Incoming paymail transaction
 
-## Bux to Bux transaction
+### SPV Wallet to SPV Wallet transaction
 
 This diagram show how incoming paymail transaction is processed.
 ![Incoming paymail tx](incoming_paymail_tx.jpg "incoming_paymail_tx")
 
-### Create draft transaction
-Draft transaction is a preparation before creating actual transaction. It calculates fee, change and contains receiver address and expiration time. DraftTransaction creation is triggered in go-buxclient by methods: `SendToRecipients`, `DraftToRecipients`or `DraftTransaction` \
-In bux every model has BeforeCreate hook which is called before creating model. In draft transaction it gathers information about receiver paymail.
+#### Create draft transaction
+
+Draft transaction is a preparation before creating actual transaction. It calculates fee, change and contains receiver address and expiration time. DraftTransaction creation is triggered in spv-wallet-go-client by methods: `SendToRecipients`, `DraftToRecipients`or `DraftTransaction` \
+In SPV Wallet every model has BeforeCreate hook which is called before creating model. In draft transaction it gathers information about receiver paymail.
 
 1. Checking capabilities - `/.well-known/bsvalias`\
    Capability Discovery is the process by which a paymail client learns the supported features of a paymail service and their respective endpoints and configurations.\
@@ -57,7 +58,7 @@ Every endpoint connected to paymail is defined in `go-paymail` library.
 
 ### Finalize transaction
 
-Finalize transaction is a method defined in [go-buxclient](../go-buxclient/README.md) which is called after creating draft transaction. It creates actual transaction (using go-bt library) and return its hex.
+Finalize transaction is a method defined in [spv-wallet-go-client](../../spv-wallet-go-client/README.md) which is called after creating draft transaction. It creates actual transaction (using go-bt library) and return its hex.
 
 ### Record Transaction
 
@@ -86,14 +87,14 @@ Record transaction is a method which saves all information about created transac
      1. Check if **DraftTransaction** exists and match with **Transaction**
 4. Save **Transaction**
 
-Every model in BUX have `BeforeCreated` and `AfterCreated` hooks which are creating operations that are executed before and after creating model.\
+Every model in SPV Wallet Engine have `BeforeCreated` and `AfterCreated` hooks which are creating operations that are executed before and after creating model.\
 In **Transaction** model we have `BeforeCreated` hook which can create **SyncTransaction** and **IncomingTransaction**.\
 In **SyncTransaction** model we have `AfterCreated` hook which triggers broadcasting.
 
-BUX also have tasks which are launched every 30 seconds and are responsible for many operation e.g. broadcasting and synchronizing transactions.
+SPV Wallet Engine also have tasks which are launched every 30 seconds and are responsible for many operation e.g. broadcasting and synchronizing transactions.
 
 Broadcasting is a process of sending transaction to the network. It can be triggered by `AfterCreated` hook in **SyncTransaction** model or in `BroadcastTransaction` task.
-Broadcasting is done to different providers (several using mAPI but whatsOnChain and NowNodes are using their own api). Bux broadcasts transactions in parallel to all providers.
+Broadcasting is done to different providers (several using mAPI but whatsOnChain and NowNodes are using their own api). SPV Wallet Engine broadcasts transactions in parallel to all providers.
 The client is notified of the fastest provider that will respond to the broadcast successfully at exactly the same moment- meaning it doesn't have to wait for responses from the other providers.
 
 ## From external source
@@ -172,16 +173,11 @@ This is the part where user confirm that he want to send the transaction (exampl
    ```
 
 3. Receive transaction - `/v1/bsvalias/receive-transaction/{alias}@{domain}`\
-    This endpoint is used to receive a transaction for a paymail handle. It uses RecordTransaction method from BUX which is described [here](#record-transaction).
+    This endpoint is used to receive a transaction for a paymail handle. It uses RecordTransaction method from SPV Wallet Engine which is described [here](#record-transaction).
 
-# Incoming address transaction
+## Incoming address transaction
 
 This diagram show how incoming address transaction is processed.
 ![Incoming address tx](incoming_address_tx.jpg "incoming_address_tx")
 
-To work with Address incoming transactions Bux Server must have Monitor service configured (read how to do it [here](../bux-server/configuration.md#configuration-file-structure)).
-The Monitor service connects to a messaging server and listens for two types of messages: `mempool:transactions` and `block:headers`.
-
->TODO: investigate what messaging server we use and how it works
-
-The `mempool:transactions` indicates that a new transaction has occurred in the mempool. The Bux server checks the transaction against the registered addresses in its own database, if the recipient of the transaction is a known address Bux-Server will record transaction (whitout broadcasting).
+The `mempool:transactions` indicates that a new transaction has occurred in the mempool. The SPV Wallet checks the transaction against the registered addresses in its own database, if the recipient of the transaction is a known address SPV Wallet will record transaction (whitout broadcasting).

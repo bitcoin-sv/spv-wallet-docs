@@ -1,6 +1,6 @@
 # SPV Wallet Engine database schema
 
-Bux transaction engine database overview:
+SPV Wallet Engine transaction engine database overview:
 
 ![# SPV Wallet Engine database schema](spv-wallet-db-diag.png "SPV Wallet db")
 
@@ -38,7 +38,7 @@ Represents the BitCoin block header. Model may refer to another **block_header**
 
 Represents the BitCoin transaction. In the table we store all transactions in the system: outgoing and incomig ones. In other words, **transaction** record is created based on record from **draft_transactions** (for outgoing) and based on **incoming_transactions** (for incoming). Outgoing transaction will refer to **draft_transactions** by _draft_id_ field, incoming will refer to **incoming_transactions** by by _id_ field (1:1).
 
->**Note**: Transactions inside the same BUX system (between two paymails in same system) are recorded as **outgoing** only!
+>**Note**: Transactions inside the same SPV Walllet Engine system (between two paymails in same system) are recorded as **outgoing** only!
 
 ![transactions](transactions.png "Transactions schema")
 
@@ -65,13 +65,11 @@ Possible values for status fields (_p2p_status, sync_status, broadcast_status_ )
 * _error_ - is when the sync has an error
 * _complete_ - is when the sync is complete
 
-> TODO: find out when/where each status is assigned
-
 ### incoming_transactions
 
 Represents the incoming (external) transaction (for pre-processing). Model is related to **transactions** by _id_ field (1:1).
 
->**NOTE**: Internal incoming transactions (from BUX to BUX) are not recorded in **incoming_transactions**
+>**NOTE**: Internal incoming transactions (from SPV Wallet to SPV Wallet) are not recorded in **incoming_transactions**
 
 ![incoming-transactions](incoming_transactions.png "Incoming transactions schema")
 
