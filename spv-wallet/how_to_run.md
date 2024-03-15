@@ -76,6 +76,7 @@ Define admin xPriv (Leave empty to use the default one)
 ```bash
 Do you want to expose the services on and its subdomains? [y/N]
 > # If you want to expose services on your domains, you can use this option.
+# Locally it's better to set "N" and work with services on localhost.
 ```
 
 ### Required subdomains (if you are exposing the services on subdomains)
