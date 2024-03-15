@@ -2,22 +2,24 @@
 
 ## Table of contents
 
-- [Overview](#overview)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Create SPV Wallet Go Client instance](#create-spv-wallet-go-client-instance)
-    - [Admin wallet client instance](#admin-wallet-client-instance)
-    - [Normal wallet client instance](#normal-wallet-client-instance)
-  - [Register new xPub](#register-new-xpub)
-    - [Generate new xpub](#generate-new-xpub)
-    - [Register new xPub in SPV Wallet](#register-new-xpub-in-spv-wallet)
-  - [Get xPub](#get-xpub)
-  - [Create paymail](#create-paymail)
-  - [Create new access key](#create-new-access-key)
-  - [Get Transactions](#get-transactions)
-  - [Get Transaction](#get-transaction)
-  - [Create transaction](#create-transaction)
-    - [Separated methods](#separated-methods)
+- [SPV Wallet GO Client](#spv-wallet-go-client)
+  - [Table of contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Create SPV Wallet Go Client instance](#create-spv-wallet-go-client-instance)
+      - [Admin wallet client instance](#admin-wallet-client-instance)
+      - [Normal wallet client instance](#normal-wallet-client-instance)
+    - [Register new xPub](#register-new-xpub)
+      - [Generate new xpub](#generate-new-xpub)
+      - [Register new xPub in SPV Wallet](#register-new-xpub-in-spv-wallet)
+    - [Get xPub](#get-xpub)
+    - [Create paymail](#create-paymail)
+    - [Create new access key](#create-new-access-key)
+    - [Get Transactions](#get-transactions)
+    - [Get Transaction](#get-transaction)
+    - [Create transaction](#create-transaction)
+      - [Separated methods](#separated-methods)
 
 🔗 [GitHub URL](https://github.com/bitcoin-sv/spv-wallet-go-client)
 
@@ -35,7 +37,7 @@ go get -u github.com/bitcoin-sv/spv-wallet-go-client
 
 ### Create SPV Wallet Go Client instance
 
-To create a SPV Wallet Go Client instance you need to provide user xpriv and SPV Wallet url. You can also deifine if you want to sign requests.
+To create a SPV Wallet Go Client instance you need to provide user xpriv and SPV Wallet url. You can also define if you want to sign requests.
 Below you can find examples of creating admin and normal user clients.
 
 #### Admin wallet client instance
