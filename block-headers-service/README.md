@@ -4,14 +4,15 @@ The Block Headers Service is a standalone service that communicates with the Bit
 
 ## Table of Contents
 
-- [How it is used in the SPV Wallet ecosystem](#how-it-is-used-in-the-spv-wallet-ecosystem)
-- [How Merkle Roots are verified](#how-merkle-roots-are-verified)
-- [Authentication](#authentication)
-- [API](api.md)
+- [Block Headers Service](#block-headers-service)
+  - [Table of Contents](#table-of-contents)
+  - [How it is used in the SPV Wallet ecosystem](#how-it-is-used-in-the-spv-wallet-ecosystem)
+  - [How merkle roots are verified](#how-merkle-roots-are-verified)
+  - [Authentication](#authentication)
 
 ## How it is used in the SPV Wallet ecosystem
 
-The Block Headers Service (BHS) is used by the SPV Wallet to verify the validity of Merkle Roots.
+The Block Headers Service (BHS) is used by the SPV Wallet to verify the validity of merkle roots.
 
 This service exposes a REST API with multiple endpoints, the most important from the SPV Wallet user perspective is:
 
@@ -19,7 +20,7 @@ This service exposes a REST API with multiple endpoints, the most important from
 
 ![Merkle Roots Verify](merkleroots.jpg "Merkle Roots Verify Endpoint")
 
-## How Merkle Roots are verified
+## How merkle roots are verified
 
 The SPV Wallet sends a request to the BHS with an array of merkle roots and the block height.
 
