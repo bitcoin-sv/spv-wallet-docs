@@ -14,7 +14,7 @@ This diagram show how incoming paymail transaction is processed.
 
 #### Create draft transaction
 
-Draft transaction is a preparation before creating actual transaction. It calculates fee, change and contains receiver address and expiration time. DraftTransaction creation is triggered in spv-wallet-go-client by methods: `SendToRecipients`, `DraftToRecipients`or `DraftTransaction` \
+Draft transaction is a preparation before creating actual transaction. It calculates fee, change and contains receiver address and expiration time. Draft transaction creation is triggered in spv-wallet-go-client by methods: `SendToRecipients`, `DraftToRecipients`or `DraftTransaction` \
 In SPV Wallet every model has BeforeCreate hook which is called before creating model. In draft transaction it gathers information about receiver paymail.
 
 1. Checking capabilities - `/.well-known/bsvalias`\
@@ -73,7 +73,7 @@ Record transaction is a method which saves all information about created transac
 1. Create **Transaction** based on **DraftTransaction** and tx hex
 2. Validate if tx was created successfully by checking if tx id is not empty
 3. Validate **Transaction** if ITC (Incoming Transaction Check) is enabled - env variable `disable_itc`
-   * If sent DraftTransaction id was empty
+   * If sent draft transaction id was empty
      1. Create and save **IncomingTransaction** with **Transaction** id and hex
      2. Create and save **SyncTransaction** with **Transaction** id
      3. Set values for **SyncTransaction**
