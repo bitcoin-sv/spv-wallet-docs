@@ -25,7 +25,7 @@
 ## Authenticate with client libraries
 
 The following description is providing examples in http requests,
-but we strongly encourage you to use one of the bux client libraries provided for different languages,
+but we strongly encourage you to use one of the SPV Wallet client libraries provided for different languages,
 which can be easily configured and handle authentication for you:
 
 - [spv-wallet-go-client](../spv-wallet-go-client/README.md)
@@ -39,9 +39,9 @@ In this example we will use authentication access key.
 
 #### Step one - set the required headers & send the request
 
-First follow up the specific part in go-buxclient library authentication docs to set up access key headers:
+First follow up the specific part in spv-wallet-go-client library authentication docs to set up access key headers:
 
-- [Click here](/docs/domain_knowledge/blockchain/components/BuxOrg/go-buxclient/authentication.md#get-transaction-endpoint-example)
+- [Click here](../spv-wallet-go-client/authentication.md#get-transaction-endpoint-example)
 
 #### Step two - receive the request on the SPV Wallet side
 
@@ -84,8 +84,8 @@ err := Get(ctx, tx, nil, false, defaultDatabaseReadTimeout, false);
 
 #### Step one - set the required headers & send the request
 
-First follow up the specific part in go-buxclient library authentication docs to set up access key headers:
-[Click here](/docs/domain_knowledge/blockchain/components/BuxOrg/go-buxclient/authentication.md#create-transaction-endpoint-example)
+First follow up the specific part in spv-wallet-go-client library authentication docs to set up access key headers:
+[Click here](../spv-wallet-go-client/authentication.md#create-transaction-endpoint-example)
 
 #### Step two - receive the request on the SPV Wallet side
 
@@ -137,7 +137,7 @@ Setting admin_key property in a config json file:
 Or by setting environment variable before starting the server:
 
 ```bash
-BUX_AUTHENTICATION_ADMIN_KEY="xpub_replace_with_admin_xpub"
+SPV_AUTHENTICATION_ADMIN_KEY="xpub_replace_with_admin_xpub"
 ```
 
 ### Authenticate with admin xpub
@@ -182,7 +182,7 @@ Another way of authenticate as a user is by use of access key.
 
 #### Create
 
-To authenticate as user with access key, first your xpub must be registered in bux and you must create an access key by making a request:
+To authenticate as user with access key, first your xpub must be registered in SPV Wallet and you must create an access key by making a request:
 
 ```http request
 POST {{spv-wallet-url}}/v1/access-key

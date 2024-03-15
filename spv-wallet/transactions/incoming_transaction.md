@@ -15,9 +15,11 @@ This diagram show how incoming paymail transaction is processed.
 ### Create draft transaction
 Draft transaction is a preparation before creating actual transaction. It calculates fee, change and contains receiver address and expiration time. DraftTransaction creation is triggered in go-buxclient by methods: `SendToRecipients`, `DraftToRecipients`or `DraftTransaction` \
 In bux every model has BeforeCreate hook which is called before creating model. In draft transaction it gathers information about receiver paymail.
+
 1. Checking capabilities - `/.well-known/bsvalias`\
    Capability Discovery is the process by which a paymail client learns the supported features of a paymail service and their respective endpoints and configurations.\
    Example response:
+
     ```json
    {
     "bsvalias": "1.0",
@@ -32,10 +34,12 @@ In bux every model has BeforeCreate hook which is called before creating model. 
     }
     }
    ```
+
 2. P2P Payment Destination - `/v1/bsvalias/p2p-payment-destination/{alias}@{domain}`\
    This endpoint returns a JSON object containing the payment destination information for the given paymail handle.\
    ⚠️ Every call on this endpoint creates new destination (with new address) which is saved in db.\
    Example response:
+
     ```json
    {
     "outputs": [
@@ -48,19 +52,23 @@ In bux every model has BeforeCreate hook which is called before creating model. 
     "reference": "90030d54ee6e6d35b4cb7c62fd25dad5"
     }
    ```
-   
+
 Every endpoint connected to paymail is defined in `go-paymail` library.
 
 ### Finalize transaction
+
 Finalize transaction is a method defined in [go-buxclient](../go-buxclient/README.md) which is called after creating draft transaction. It creates actual transaction (using go-bt library) and return its hex.
 
 ### Record Transaction
+
 Record transaction is a method which saves all information about created transaction in db. During this process we create three objects:
+
 1. **Transaction** - contains information about transaction
 2. **SyncTransaction** - contains information about transaction synchronization
 3. **IncomingTransaction** - contains information about incoming transaction
 
 #### Steps in Record transaction
+
 1. Create **Transaction** based on **DraftTransaction** and tx hex
 2. Validate if tx was created successfully by checking if tx id is not empty
 3. Validate **Transaction** if ITC (Incoming Transaction Check) is enabled - env variable `disable_itc`
@@ -94,9 +102,11 @@ This diagram show how external incoming paymail transaction is processed.
 ![Incoming external tx](incoming_external_paymail_tx.jpg "incoming_external_tx")
 
 ### Get information about paymail
+
 1. Checking capabilities - `/.well-known/bsvalias`\
     Capability Discovery is the process by which a paymail client gets information about the supported features of a paymail service and their respective endpoints and configurations.\
     Example response:
+
     ```json
    {
     "bsvalias": "1.0",
@@ -111,10 +121,11 @@ This diagram show how external incoming paymail transaction is processed.
     }
     }
    ```
-   
+
 2. Public Key Infrastructure - Checking if paymail is valid - `/v1/bsvalias/id/{alias}@{domain.tld}`\
    Each paymail handle `{alias}@{domain}` must be issued a stable ECDSA public key that should not be used as part of any on-chain transaction.
     Example response for known paymail handle:
+
     ```json
     {
     "bsvalias": "1.0",
@@ -126,23 +137,27 @@ This diagram show how external incoming paymail transaction is processed.
 3. Public profile - `/v1/bsvalias/public-profile/{alias}@{domain}`\
     This endpoint returns a JSON object containing the public profile information for the given paymail handle.\
     Example response:
+
     ```json
     {
     "avatar": "https://url.to.avatar.com/test.png",
     "name": "jsmith"
     }
    ```
-   
+
 ### Confirm transaction
+
 This is the part where user confirm that he want to send the transaction (example: submit the form by clicking the send button)
 
 ### Create transaction
+
 1. Checking capabilities - `/.well-known/bsvalias`\
     As above, checking if it is possible to send transaction to this paymail.
 2. P2P Payment Destination - `/v1/bsvalias/p2p-payment-destination/{alias}@{domain}`\
     This endpoint returns a JSON object containing the payment destination information for the given paymail handle.\
     ⚠️ As above, every call on this endpoint creates new destination (with new address) which is saved in db.\
     Example response:
+
     ```json
    {
     "outputs": [
@@ -155,9 +170,9 @@ This is the part where user confirm that he want to send the transaction (exampl
     "reference": "90030d54ee6e6d35b4cb7c62fd25dad5"
     }
    ```
+
 3. Receive transaction - `/v1/bsvalias/receive-transaction/{alias}@{domain}`\
     This endpoint is used to receive a transaction for a paymail handle. It uses RecordTransaction method from BUX which is described [here](#record-transaction).
-
 
 # Incoming address transaction
 
@@ -165,7 +180,7 @@ This diagram show how incoming address transaction is processed.
 ![Incoming address tx](incoming_address_tx.jpg "incoming_address_tx")
 
 To work with Address incoming transactions Bux Server must have Monitor service configured (read how to do it [here](../bux-server/configuration.md#configuration-file-structure)).
-The Monitor service connects to a messaging server and listens for two types of messages: `mempool:transactions` and `block:headers`. 
+The Monitor service connects to a messaging server and listens for two types of messages: `mempool:transactions` and `block:headers`.
 
 >TODO: investigate what messaging server we use and how it works
 

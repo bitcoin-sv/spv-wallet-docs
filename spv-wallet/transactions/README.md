@@ -1,11 +1,13 @@
 # Transactions
 
 ## Diagram
+
 ![Transaction Lifecycle](transaction_lifecycle.png "transaction_lifecycle")
 
-Bux supports both types on transactions: outgoing and [incoming](incoming_transaction.md)
+SPV Wallet supports both types on transactions: outgoing and [incoming](incoming_transaction.md)
 
-Process of creation of a transaction in Bux consists of 4 stages:
+Process of creation of a transaction in SPV Wallet consists of 4 stages:
+
 1. Creation of a Draft Transaction
 2. Finalize transaction
 3. Record Transaction
@@ -84,15 +86,11 @@ Parses the transaction and saves it into the Datastore. Can trigger creation of 
      4. Init new **Transaction** based on **IncomingTransaction**
 2. BeforeCreating Hook will init a sync transaction and will process utxos if transaction is internal
 3. Save **Transaction**
-4. Saving of Transaction will trigger creation of sync transaction in datastore, which will trigger broadcasting and syncronization. If paymail was used for a transaction, paymail provider will be notified by `{receiver_paymail_host}/v1/bsvalias/receive-transaction/{alias}@{domain}` endpoint. * In case of bux to bux transaction notifying of provider will trigger receiving an incoming transaction and record transaction will be called one more time.
+4. Saving of Transaction will trigger creation of sync transaction in datastore, which will trigger broadcasting and syncronization. If paymail was used for a transaction, paymail provider will be notified by `{receiver_paymail_host}/v1/bsvalias/receive-transaction/{alias}@{domain}` endpoint. * In case of SPV Wallet to SPV Wallet transaction notifying of provider will trigger receiving an incoming transaction and record transaction will be called one more time.
 5. AfterCreated Hook will update balance and will update draft transaction with final transaction data.
 
 ### Broadcasting
 
 Broadcasting is a process of sending transaction to the network. It can be triggered by `AfterCreated` hook in **SyncTransaction** model or in `BroadcastTransaction` task.
-Broadcasting is done to different providers (several using ARC, or mAPI, but whatsOnChain and NowNodes are using their own api). Bux broadcasts transactions in parallel to all providers.
+Broadcasting is done to different providers (several using ARC, or mAPI, but whatsOnChain and NowNodes are using their own api). SPV Wallet broadcasts transactions in parallel to all providers.
 The client is notified of the fastest provider that will respond to the broadcast successfully at exactly the same moment- meaning it doesn't have to wait for responses from the other providers.
-
-### Callbacks
-
-// TODO: Callbacks

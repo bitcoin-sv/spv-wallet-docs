@@ -4,9 +4,9 @@ Paymail client & server library for Golang. The server is used to register payma
 
 ## Table of Contents
 
-1. [Client](#create-paymail-client)
-2. [Register routes](#routes-which-will-be-registered)
-3. [Capabilities](#brfccapabilities)
+- [Client](#create-paymail-client)
+- [Register routes](#routes-which-will-be-registered)
+- [Capabilities](#brfccapabilities)
 
 ## Create paymail client
 
@@ -330,6 +330,7 @@ BRFC (Bitcoin SV Request-For-Comments) Specifications define functionality acros
 |BRFCSFPAuthoriseAction             |95dddb461bff       |
 |BRFCSFPBuildAction                 |189e32d93d28       |
 |BRFCVerifyPublicKeyOwner           |a9f510c16bde       |
+|BRFCBeefTransaction                |5c55a7fdb7bb       |
 
 Capabilities are set by two methods:
 
