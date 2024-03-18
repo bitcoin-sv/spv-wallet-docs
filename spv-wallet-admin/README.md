@@ -2,8 +2,6 @@
 
 ## Table of Contents
 
-- [SPV Wallet Admin](#spv-wallet-admin)
-  - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
   - [Usage](#usage)
     - [Locally](#locally)

@@ -2,8 +2,6 @@
 
 ## Table of Contents
 
-- [SPV Wallet Admin Keygen](#spv-wallet-admin-keygen)
-  - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
   - [Usage](#usage)
     - [Running Locally in command line](#running-locally-in-command-line)
