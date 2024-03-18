@@ -25,7 +25,7 @@ SPV Wallet Admin console is an admin panel that allows for viewing (and in some 
 
 ```json
 {
-  "apiUrl": "http://localhost:3003/v1",
+  "apiUrl": "http://localhost:3003/v1"
 }
 ```
 
@@ -38,7 +38,7 @@ yarn        # to install
 yarn dev    # to run
 ```
 
-4. Enter the url in the browser (usually localhost:3000) and log in with your xPriv.
+2. Enter the url in the browser (usually localhost:3000) and log in with your xPriv.
 
 ---
 
@@ -50,7 +50,7 @@ yarn dev    # to run
 
 ```json
 {
-  "apiUrl": "http://localhost:3003/v1",
+  "apiUrl": "http://localhost:3003/v1"
 }
 ```
 
