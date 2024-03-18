@@ -1,11 +1,13 @@
 # Transactions
 
 ## Diagram
+
 ![Transaction Lifecycle](transaction_lifecycle.png "transaction_lifecycle")
 
-Bux supports both types on transactions: outgoing and [incoming](incoming_transaction.md)
+SPV Wallet supports both types on transactions: outgoing and [incoming](incoming_transaction.md)
 
-Process of creation of a transaction in Bux consists of 4 stages:
+Process of creation of a transaction in SPV Wallet consists of 4 stages:
+
 1. Creation of a Draft Transaction
 2. Finalize transaction
 3. Record Transaction
@@ -15,10 +17,13 @@ Process of creation of a transaction in Bux consists of 4 stages:
 
 Initialize a new draft transaction according to provided transaction config where, in addition to mandatory "to"(recepient) and "satoshis", you can specify your own fee value, transaction expiration time, utxos which will be used and change destination strategy.
 Next, processing of outputs are started. It inspects the outputs to determine how they should be processed. In case if paymail was used as a transaction destination additional endpoints will be called:
+
 * Before calling the next endpoints {receiver_paymail_host} should be retrieved. And it will be retrieved from SRV record for a given paymail. This is all handled by the `go-paymail` library.
+
 1. `{receiver_paymail_host}/.well-known/bsvalias`
    Retrieves capabilities for a Paymail provider.
    Example response:
+
     ```json
    {
     "bsvalias": "1.0",
@@ -33,11 +38,13 @@ Next, processing of outputs are started. It inspects the outputs to determine ho
     }
     }
    ```
+
 2. `{receiver_paymail_host}/v1/bsvalias/p2p-payment-destination/{alias}@{domain}`
    Retrieves the list of outputs for the P2P transactions to use. Will be called only in case if paymail's capabilities will contain P2P urls. At the moment, every paymail should contain P2P urls, as second non-P2P paymail processing method will no longer be supported.
    ⚠️ Every call on this endpoint creates new destination (with new address) which is saved in db.\
    Example response:
-    ```json
+
+```json
    {
     "outputs": [
         {
@@ -49,7 +56,8 @@ Next, processing of outputs are started. It inspects the outputs to determine ho
     "reference": "90030d54ee6e6d35b4cb7c62fd25dad5"
     }
    ```
-   * Every endpoint connected to paymail is defined in `go-paymail` library.
+
+* Every endpoint connected to paymail is defined in `go-paymail` library.
 Next, fees are calculated, the utxos are reserved, necessery outputs are added and the result is validated.
 And if the transaction is valid it's saved in db and waiting for the next step. 
 
@@ -60,10 +68,12 @@ Finilize draft transaction stage signs all transaction's inputs using keys deriv
 ### Record Transaction
 
 Parses the transaction and saves it into the Datastore. Can trigger creation of additional objects:
-1. **SyncTransaction** - contains information about transaction synchronization
+
+1. **SyncTransaction** - contains information about transaction synchronization,
 2. **IncomingTransaction** - contains information about incoming transaction. Can be created only for external incoming transactions.
 
 #### Record transaction. Detailed flow
+
 1. If ITC (Incoming Transaction Check) is enabled(env variable `disable_itc`) and if Transaction is external:
      1. Create and save **IncomingTransaction** with **Transaction** id and hex
      2. Init **SyncTransaction** with **Transaction** id
@@ -76,11 +86,11 @@ Parses the transaction and saves it into the Datastore. Can trigger creation of 
      4. Init new **Transaction** based on **IncomingTransaction**
 2. BeforeCreating Hook will init a sync transaction and will process utxos if transaction is internal
 3. Save **Transaction**
-4. Saving of Transaction will trigger creation of sync transaction in datastore, which will trigger broadcasting and syncronization. If paymail was used for a transaction, paymail provider will be notified by `{receiver_paymail_host}/v1/bsvalias/receive-transaction/{alias}@{domain}` endpoint. * In case of bux to bux transaction notifying of provider will trigger receiving an incoming transaction and record transaction will be called one more time.
-5. AfterCreated Hook will update balance and will update draft transaction with final transaction data. 
-
+4. Saving of Transaction will trigger creation of sync transaction in datastore, which will trigger broadcasting and syncronization. If paymail was used for a transaction, paymail provider will be notified by `{receiver_paymail_host}/v1/bsvalias/receive-transaction/{alias}@{domain}` endpoint. * In case of SPV Wallet to SPV Wallet transaction notifying of provider will trigger receiving an incoming transaction and record transaction will be called one more time.
+5. AfterCreated Hook will update balance and will update draft transaction with final transaction data.
 
 ### Broadcasting
+
 Broadcasting is a process of sending transaction to the network. It can be triggered by `AfterCreated` hook in **SyncTransaction** model or in `BroadcastTransaction` task.
-Broadcasting is done to different providers (several using ARC, or mAPI, but whatsOnChain and NowNodes are using their own api). Bux broadcasts transactions in parallel to all providers.
+Broadcasting is done to different providers (several using ARC, or mAPI, but whatsOnChain and NowNodes are using their own api). SPV Wallet broadcasts transactions in parallel to all providers.
 The client is notified of the fastest provider that will respond to the broadcast successfully at exactly the same moment- meaning it doesn't have to wait for responses from the other providers.
