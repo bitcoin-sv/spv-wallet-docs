@@ -18,67 +18,6 @@ client, err = paymail.NewClient()
 
 **PaymailServiceProvider** must be implemented in your application in order to be able to use the go paymail client. These methods fetch or save data to the database.
 
-```go
-type PaymailServiceProvider interface {
-	CreateAddressResolutionResponse(
-		ctx context.Context,
-		alias, domain string,
-		senderValidation bool,
-		metaData *RequestMetadata,
-	) (*paymail.ResolutionPayload, error)
-	CreateP2PDestinationResponse(
-		ctx context.Context,
-		alias, domain string,
-		satoshis uint64,
-		metaData *RequestMetadata,
-	) (*paymail.PaymentDestinationPayload, error)
-	GetPaymailByAlias(
-		ctx context.Context,
-		alias, domain string,
-		metaData *RequestMetadata,
-	) (*paymail.AddressInformation, error)
-	RecordTransaction(
-		ctx context.Context,
-		p2pTx *paymail.P2PTransaction,
-		metaData *RequestMetadata,
-	) (*paymail.P2PTransactionPayload, error)
-}
-```
-
-Objects returned by this methods:
-
-```go
-// ResolutionPayload is the payload from the response
-type ResolutionPayload struct {
-    Address   string `json:"address,omitempty"`   // Legacy BSV address derived from the output script (custom for our Go package)
-    Output    string `json:"output"`              // hex-encoded Bitcoin script, which the sender MUST use during the construction of a payment transaction
-    Signature string `json:"signature,omitempty"` // This is used if SenderValidation is enforced (signature of "output" value)
-}
-// PaymentDestinationPayload is the payload from the response
-//
-// The reference is unique for the payment destination request
-type PaymentDestinationPayload struct {
-    Outputs   []*PaymentOutput `json:"outputs"`   // A list of outputs
-    Reference string           `json:"reference"` // A reference for the payment, created by the receiver of the transaction
-}
-// AddressInformation is an internal struct for paymail addresses and their corresponding information
-type AddressInformation struct {
-    Alias       string `json:"alias"`        // Alias or handle of the paymail
-    Avatar      string `json:"avatar"`       // This is the url of the user (public profile)
-    Domain      string `json:"domain"`       // Domain of the paymail
-    ID          string `json:"id"`           // Global unique identifier
-    LastAddress string `json:"last_address"` // This is used as a temp address for now (should be via xPub)
-    Name        string `json:"name"`         // This is the name of the user (public profile)
-    PrivateKey  string `json:"-"`            // PrivateKey hex encoded
-    PubKey      string `json:"pubkey"`       // PublicKey hex encoded
-}
-// P2PTransactionPayload is payload from the request
-type P2PTransactionPayload struct {
-    Note string `json:"note"` // Some human-readable note
-    TxID string `json:"txid"` // The txid of the broadcasted tx
-}
-```
-
 > Example implementation in SPV Wallet [here](https://github.com/bitcoin-sv/spv-wallet/blob/master/engine/paymail_service_provider.go)
 
 ### Methods which the client offers
