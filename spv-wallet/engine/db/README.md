@@ -1,5 +1,7 @@
 # SPV Wallet Engine database schema
 
+[SPV Wallet GitBook](https://bsvblockchain.gitbook.io/docs)
+
 SPV Wallet Engine transaction engine database overview:
 
 ![# SPV Wallet Engine database schema](spv-wallet-db-diag.png "SPV Wallet db")

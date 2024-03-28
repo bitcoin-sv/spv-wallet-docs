@@ -2,6 +2,8 @@
 
 Paymail client & server library for Golang. The server is used to register paymail routes, provide capabilities. The client is for making requests to other paymail servers.
 
+[SPV Wallet GitBook](https://bsvblockchain.gitbook.io/docs)
+
 ## Table of Contents
 
 - [Client](#create-paymail-client)

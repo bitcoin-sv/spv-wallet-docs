@@ -1,4 +1,5 @@
 # SPV Wallet JS Client
+[SPV Wallet GitBook](https://bsvblockchain.gitbook.io/docs)
 
 This library is used to create an admin or normal user client and call methods on it to create keys and destinations associated with that user.
 

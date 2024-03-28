@@ -1,7 +1,7 @@
 # SPV Wallet Toolbox
 
 This is the main documentation for the SPV Wallet ecosystem. Here you can find all the information about it and how to use it.
-
+[SPV Wallet GitBook](https://bsvblockchain.gitbook.io/docs)
 ## Table of Contents
 
 1. [SPV Wallet Engine](spv-wallet/engine/README.md)

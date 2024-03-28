@@ -3,6 +3,8 @@
 Complete stand-alone server using the SPV Wallet engine to manage xpubs, utxos, destinations, paymails and transactions.
 It's non-custodial wallet, which means that it doesn't store any private keys.
 
+[SPV Wallet GitBook](https://bsvblockchain.gitbook.io/docs)
+
 ## Table of Contents
 
 1. [How to run it?](how_to_run.md)
