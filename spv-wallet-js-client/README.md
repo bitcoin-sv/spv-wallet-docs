@@ -30,15 +30,14 @@ node index.js
 import { SpvWalletClient, generateKeys } from 'spv-wallet-js-client';
 
 const server = "http://localhost:3003/v1";
-const xPriv = generateKeys().xPriv()
+const xPriv = "xpriv..."
 
 const client = new SpvWalletClient(server, {
-  signRequest: true,
   xPriv,
 });
 
 const recipients = [{
-  to: "test@handcash.io",
+  to: "test@example.com",
   satoshis: 10000,
 }];
 const result = await client.SendToRecipients(recipients, { agent: 'Spv Wallet test' })
