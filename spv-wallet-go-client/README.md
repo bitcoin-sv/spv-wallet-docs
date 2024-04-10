@@ -1,5 +1,4 @@
 # SPV Wallet GO Client
-[SPV Wallet GitBook](https://bsvblockchain.gitbook.io/docs)
 
 ## Table of contents
 

@@ -1,7 +1,5 @@
 # SPV Wallet Admin Keygen
 
-[SPV Wallet GitBook](https://bsvblockchain.gitbook.io/docs)
-
 ## Table of Contents
 
   - [Overview](#overview)

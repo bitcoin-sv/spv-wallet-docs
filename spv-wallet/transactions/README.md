@@ -1,7 +1,5 @@
 # Transactions
 
-[SPV Wallet GitBook](https://bsvblockchain.gitbook.io/docs)
-
 ## Diagram
 
 ![Transaction Lifecycle](transaction_lifecycle.png "transaction_lifecycle")

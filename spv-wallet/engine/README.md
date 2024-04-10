@@ -1,7 +1,5 @@
 # SPV Wallet Engine
 
-[SPV Wallet GitBook](https://bsvblockchain.gitbook.io/docs)
-
 ## Bitcoin UTXO & xPub Management Engine
 
 It gathers all methods which are used to store and transform information about xpubs and transactions.\

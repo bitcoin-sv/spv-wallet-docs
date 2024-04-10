@@ -1,7 +1,6 @@
 # SPV Wallet Toolbox
 
 This is the main documentation for the SPV Wallet ecosystem. Here you can find all the information about it and how to use it.
-[SPV Wallet GitBook](https://bsvblockchain.gitbook.io/docs)
 ## Table of Contents
 
 1. [SPV Wallet Engine](spv-wallet/engine/README.md)
@@ -20,3 +19,5 @@ This is the main documentation for the SPV Wallet ecosystem. Here you can find a
 Those diagrams show how SPV Wallet Toolbox is built. It is a set of tools which can be used to create a wallet,
 send and receive transactions, create and manage paymails and more.
 It is built to be used as a standalone app or as a module in bigger system.
+
+For in-depth information and guidance, please refer to the [SPV Wallet Documentation](https://bsvblockchain.gitbook.io/docs).

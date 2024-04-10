@@ -2,10 +2,6 @@
 
 The Block Headers Service is a standalone service that communicates with the Bitcoin network using the P2P protocol. It is used to retrieve block headers and data related to them.
 
-## Documentation
-
-For in-depth information and guidance, please refer to the [SPV Wallet Documentation](https://bsvblockchain.gitbook.io/docs).
-
 ## Table of Contents
 
   - [How it is used in the SPV Wallet ecosystem](#how-it-is-used-in-the-spv-wallet-ecosystem)
