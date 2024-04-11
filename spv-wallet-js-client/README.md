@@ -27,7 +27,7 @@ node index.js
 ## Usage
 
 ```javascript
-import { SpvWalletClient, generateKeys } from 'spv-wallet-js-client';
+import { SpvWalletClient } from 'spv-wallet-js-client';
 
 const server = "http://localhost:3003/v1";
 const xPriv = "xpriv..."
@@ -58,8 +58,8 @@ Additional libraries which will be used in the example:
   Create HDPrivateKey. If we want to create admin client we have to use this same key as in the SPV Wallet config.
 
 ```javascript
-  import { SpvWalletClient, generateKeys } from 'spv-wallet-js-client';
-  const xPriv = generateKeys().xPriv()  
+  import { SpvWalletClient } from 'spv-wallet-js-client';
+  const xPriv = "xPriv..."
 ```
 
   Create client
@@ -67,7 +67,6 @@ Additional libraries which will be used in the example:
 ```javascript
   const client = new SpvWalletClient("http://localhost:3003/v1", {
     xPriv,
-    signRequest: true,
   })
 ```
 
@@ -83,8 +82,8 @@ To register new xPub we need to call `RegisterNewXpub` method with new xpub.
 Generate xpub
 
 ```bash
-  import { SpvWalletClient, generateKeys } from 'spv-wallet-js-client';
-  const xPub = generateKeys().xPub().toString()  
+  import { SpvWalletClient } from 'spv-wallet-js-client';
+  const xPub = "xPub..." 
   ```
 
 Register new xPub in SPV Wallet
