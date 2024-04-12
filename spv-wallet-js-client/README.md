@@ -26,7 +26,22 @@ node index.js
 
 ## Usage
 
-<!-- TODO -->
+```javascript
+import { SpvWalletClient } from 'spv-wallet-js-client';
+
+const server = "http://localhost:3003/v1";
+const xPriv = "xpriv..."
+
+const client = new SpvWalletClient(server, {
+  xPriv,
+});
+
+const recipients = [{
+  to: "test@example.com",
+  satoshis: 10000,
+}];
+const result = await client.SendToRecipients(recipients, { agent: 'Spv Wallet test' })
+```
 
 ### Create SPV Wallet JS Client
 
@@ -42,26 +57,22 @@ Additional libraries which will be used in the example:
   
   Create HDPrivateKey. If we want to create admin client we have to use this same key as in the SPV Wallet config.
 
-```bash
-  const bsv = require("bsv");
-  const walletClient = require("@bsv/spv-wallet-js-client");
-  
-  const key = bsv.HDPrivateKey.fromString("xprv_example")
+```javascript
+  import { SpvWalletClient } from 'spv-wallet-js-client';
+  const xPriv = "xPriv..."
 ```
 
   Create client
 
-```bash
-  const client = new walletClient.SpvWalletClient("http://localhost:3003/v1", {
-    xPub: key.hdPublicKey,
-    signRequest: true,
-    transportType: "http",
+```javascript
+  const client = new SpvWalletClient("http://localhost:3003/v1", {
+    xPriv,
   })
 ```
 
 If we are creating an admin client we need to set admin key.
 
-  ```bash
+  ```javascript
   client.SetAdminKey(adminKey)
   ```
 
@@ -71,21 +82,14 @@ To register new xPub we need to call `RegisterNewXpub` method with new xpub.
 Generate xpub
 
 ```bash
-  const mnemonic = require("bsv/mnemonic");
-  
-  // Generate mnemonic
-  const m = mnemonic.fromRandom()
-  const seed = m.toSeed()
-  
-  // Create xPriv and xPub
-  const xPriv = bsv.HDPrivateKey.fromSeed(Buffer.from(seed), bsv.Networks.mainnet)
-  const xPub = xPriv.hdPublicKey.toString()
+  import { SpvWalletClient } from 'spv-wallet-js-client';
+  const xPub = "xPub..." 
   ```
 
 Register new xPub in SPV Wallet
 
-```bash
-  await api.RegisterXpub(rawXpub, {})
+```javascript
+  await api.RegisterXpub(xPub, {})
     .then((result) => {
       console.log("RegisterXpub result: ", result)
     })
@@ -113,7 +117,7 @@ Register new xPub in SPV Wallet
 
   This method returns information about xpub given during client creation.
 
-```bash
+```javascript
   await userClient.GetXPub()
     .then((result) => {
       console.log("GetXPub result: ", result)
@@ -141,7 +145,7 @@ Example response:
 
 Destination in SPV Wallet is and object which contains information about the output.
 
-```bash
+```javascript
     await userClient.NewDestination({})
       .then((result) => {
         console.log("NewDestination result: ", result)
@@ -174,7 +178,7 @@ Example response:
 
 This method return all transactions for xpub which was given during SPV Wallet JS Client creation.
 
-  ```bash
+  ```javascript
   await userClient.GetTransactions({}, {}, {})
     .then((result) => {
       console.log("GetTransactions result: ", result)
@@ -214,7 +218,7 @@ Example response:
 
 This method return specific transaction but only if the transaction is connected with user xpub (transaction is incoming or outgoing for user).
 
-  ```bash
+  ```javascript
   await userClient.GetTransaction("2f2e0a94e6b7862b81d0dd304d2416f0092b79404759113390a46b059f54b549")
     .then((result) => {
       console.log("GetTransaction result: ", result)
@@ -254,7 +258,7 @@ This method return specific transaction but only if the transaction is connected
 Transaction can be made in two different ways. First is using `SendToRecipients` method, which include everything inside. Second is by calling every method separately. 
 `SendToRecipients` method
 
-  ```bash
+  ```javascript
   await userClient.SendToRecipients(recipients, {})
     .then((result) => {
       console.log("SendToRecipients result: ", result)
@@ -288,7 +292,7 @@ Transaction can be made in two different ways. First is using `SendToRecipients`
 
 Separate methods
 
-```bash
+```javascript
   // Create draft transaction
   const draftTransaction = await userClient.DraftToRecipients(recipients, {})
     .then((result) => {
