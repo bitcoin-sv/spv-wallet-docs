@@ -1,5 +1,7 @@
 # SPV Wallet Toolbox
 
+# ⚠️ DOCUMENTATION MOVED TO [GITBOOK DEVELOPERS DOCS](https://docs.bsvblockchain.org/developers-guide/developer-docs)
+
 This is the main documentation for the SPV Wallet ecosystem. Here you can find all the information about it and how to use it.
 ## Table of Contents
 
